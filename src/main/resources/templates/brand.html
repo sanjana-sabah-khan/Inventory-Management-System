@@ -1,0 +1,245 @@
+<!doctype html>
+<html xmlns: th= "http://www.thymeleaf.com">
+    
+<head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <title>Brand - IMS</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="/css/stylesheet1.css">
+    
+</head>
+    
+
+<body>
+
+
+    <div class="container-fluid">
+        <div class="row">
+
+            
+            <div class="col-md-3 menu ps-0">
+                <nav class="navbar navbar-custom align-items-start ps-2"> 
+                    
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link nav_item_text" href="/">Category</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link nav_item_text active" aria-current="page" href="brandOpen">Brand</a>
+                        </li>
+                       <li class="nav-item">
+                            <a class="nav-link nav_item_text" href="storesOpen">Stores</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link nav_item_text" href="productOpen">Product</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link nav_item_text" href="orderOpen">Order Info</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link nav_item_text" href="customerOpen">Customer</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link nav_item_text" href="logout">Logout</a>
+                        </li>
+                    </ul>
+                    
+                </nav>
+            </div>
+            
+
+            <div class="col-md-9">
+                
+                
+                <h3 class="ph_h3 page_header">Brand</h3>
+            
+            
+                <div class="row align-items-start">
+                    
+                    <div class="col-md-4 input_section">
+                    
+                    
+                    	<form th:action = "@{/addbrand}" method="POST">
+             
+	                        <div class="row">
+	                            <div class="form-group col-md-12">
+	                                <label for="brand_name">Brand</label>
+	                                <input type="text" class="form-control mt-2" id="bname" name= "brand_name" required="true" placeholder="Enter Brand Name...">
+	                            </div>
+	                        </div>
+	                        
+	                        
+	                        <div class="row pt-3">
+	                            <div class="form-group col-md-12">
+	                                <label for="contact">Contact no.</label>
+	                                <input type="text" class="form-control mt-2" id="contact_num" name= "brand_contactNum" required="true" placeholder="Enter Contact Number...">
+	                            </div>
+	                        </div>
+	                        
+	                        
+	                        <div class="row pt-3">
+	                            <div class="form-group col-md-12">
+	                                <label for="email">Email</label>
+	                                <input type="email" class="form-control mt-2" id="email" name= "brand_email" required="true" placeholder="Enter Email address...">
+	                            </div>
+	                        </div>
+	                        
+	                        
+	                        <div class="row pt-3">
+	                            <div class="form-group col-md-12">
+	                                <label for="location">Retail Location</label>
+	                                <input type="text" class="form-control mt-2" id="blocation" name= "brand_location" required="true" placeholder="Enter Brand Location...">
+	                            </div>
+	                        </div>
+	                        
+	                        
+	                        <div class="row pt-3">
+	                            <div class="form-group col-md-12">
+	                                <label for="brand_stock">Supplied Item in Stock</label>
+	                                <input type="number" class="form-control mt-2" id="item_stock" name="brand_stock" required="true" placeholder= "Enter total number of supplied items...">
+	                            </div>
+	                        </div>
+	
+	                        
+	                        <div class="row pt-3">
+	                            <div class="form-group col-md-12">
+	                                <label for= "brand_status">State</label>
+	                                <select id= "bstatus" name= "brand_status" class="form-select mt-2">
+	                                    <option selected>Active</option>
+	                                    <option>Inactive</option>
+	                                </select>
+	                            </div>
+	                        </div>
+	
+	
+	                        <div class="row pt-4">
+	                            <div class="d-grid gap-2 col-md-6 mx-auto">
+	                                <button type="submit" name="add" class="btn btn-success">Add</button>
+	                            </div>
+	                        </div>
+	                        
+                        </form>
+                        
+                               
+	                        
+                 <!--  Alert Message  -->  
+	                   <div th:if= ${session.message}>
+	                   	
+	                    	<script th:inline="javascript">
+							    var message = [[${session.message}]];
+							    alert (message);
+							</script>
+							
+							<th:block th:text="${#session.removeAttribute('message')}"></th:block>
+						</div>
+	                        
+                        
+                    </div>
+
+
+
+					<div class="col-md-8 mx-auto t_t2">
+					
+						<div class="col-md-6 page_header">	
+	                        <h3 class="ph_h4">Display Brand Stock Details</h3>	
+	                    </div>
+	                    
+	                    
+                        <table class="table table-striped t_t">
+                            <thead>
+                                <tr>
+                                    <th scope="col">ID</th>
+                                    <th scope="col">Brand</th>
+                                    <th scope="col">Status</th>
+                                    <th scope="col">Amount of items in Stock</th>
+                                    <th scope="col">Sold</th>
+                                    <th scope="col">Remaining</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                <tr th:each = "brand : ${viewbr}">
+                                    <th th:text = "${brand.brand_id}" scope="row">1</th>
+                                    <td th:text = "${brand.brand_name}"></td>
+                                    <td th:text = "${brand.brand_status}"></td>
+                                    <td th:text = "${brand.brand_stock}"></td>
+                                    <td th:text = "${brand.brand_sold}"></td>
+                                    <td th:text = "${brand.brand_remaining}"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        
+                        
+                        <div class="d-grid gap-2 col-md-4 mx-auto mt-5">
+	                    	<form th:action = "@{/emailbrand}" method= "post">		                        		                               		
+								<input type="submit" value="Send Email for Restock" class="btn btn-dark">												       	
+		                 	</form>   
+	                	</div>
+
+                    </div>
+
+			
+					<div class= "row">
+	
+						<div class="row">
+		                    <div class="col-md-6 page_header mt-5">		
+		                        <h3 class="ph_h4">Display Brand Info</h3>		
+		                    </div>
+	                	</div>
+                    
+					
+						<div class="col-md-11 t_t2">
+	                        <table class="table table-striped t_t">
+	                            <thead>
+	                                <tr>
+	                                    <th scope="col">ID</th>
+	                                    <th scope="col">Brand</th>
+	                                    <th scope="col">Contact No.</th>
+	                                    <th scope="col">Email</th>
+	                                    <th scope="col">Retail Location</th>                
+	                                    <th scope="col">Actions</th>
+	                                </tr>
+	                            </thead>
+	
+	                            <tbody>
+	                                <tr th:each = "brand : ${viewbr}">
+	                                    <th th:text = "${brand.brand_id}" scope="row">1</th>
+	                                    <td th:text = "${brand.brand_name}"></td>
+	                                    <td th:text = "${brand.brand_contactNum}"></td>
+	                                    <td th:text = "${brand.brand_email}"></td>
+	                                    <td th:text = "${brand.brand_location}"></td>
+	                                   
+	                                    <td>
+	                                    	<a class="btn btn-sm btn-warning" th:href= "@{/editbrand/{id} ( id = ${brand.brand_id} )}">Edit</a>
+	                                        <a class="btn btn-sm btn-danger" th:href= "@{/deletebrand/{id} ( id = ${brand.brand_id} )}">Delete</a>
+	                                    </td>
+	                                </tr>
+	                            </tbody>
+	                        </table>
+                    	</div>
+					                    
+                    </div>
+                    
+			
+				</div>
+
+				
+			</div>
+			
+			
+			
+        </div>
+    </div>
+    
+    
+    
+    <script src="js/jquery-3.2.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+      
+</body>
+
+</html>

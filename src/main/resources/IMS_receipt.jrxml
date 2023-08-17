@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.18.1.final using JasperReports Library version 6.18.1-9d75d1969e774d4f179fb3be8401e98a0e6d1611  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="IMS_receipt" pageWidth="700" pageHeight="842" columnWidth="660" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="5fabff87-570d-46e5-a759-b65fb8e370c9">
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="order_code" class="java.lang.Integer"/>
+	<field name="sub_total" class="java.lang.Float"/>
+	<field name="vat" class="java.lang.Double"/>
+	<field name="total_amount" class="java.lang.Float"/>
+	<field name="customer_unique" class="java.lang.Integer"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="217" splitType="Stretch">
+			<rectangle>
+				<reportElement x="27" y="17" width="607" height="191" uuid="944a80ec-f3e5-4364-8eeb-adcefde2eb93"/>
+				<graphicElement>
+					<pen lineColor="#FFFFFF"/>
+				</graphicElement>
+			</rectangle>
+			<staticText>
+				<reportElement x="156" y="43" width="254" height="40" uuid="1d2b4474-d17b-4fc8-9023-ac82c65f92ed"/>
+				<textElement>
+					<font fontName="Onyx" size="24" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Inventory Management System]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="156" y="83" width="154" height="20" uuid="d2c90ff9-0e59-444f-b3fb-d4714edf0164"/>
+				<text><![CDATA[Uttara, Sector-11]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="156" y="123" width="154" height="20" uuid="c4cb17e5-2345-43f9-93e6-f77cfa9e3b30"/>
+				<text><![CDATA[01738488484]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="156" y="103" width="234" height="20" uuid="6d3b9b28-5081-4911-ad3b-378fee82c98a"/>
+				<text><![CDATA[sanjana.sabah.khan@g.bracu.ac.bd]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="156" y="143" width="174" height="14" uuid="850611d5-c231-413d-88ae-2527e1ab87ac"/>
+				<text><![CDATA[http://localhost:8080/]]></text>
+			</staticText>
+			<textField pattern="MMMMM dd, yyyy">
+				<reportElement x="476" y="33" width="158" height="20" uuid="c87a157d-9d75-4c73-9271-d5f7d0f5ed37"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="476" y="53" width="158" height="20" uuid="8dffc5b8-4dbd-4e66-a512-2e0cac6e0359"/>
+				<text><![CDATA[Invoice: #######]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="156" y="168" width="174" height="19" backcolor="#3300CC" uuid="20c230fc-1594-4102-b7dc-944002664c76"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="159" y="171" width="100" height="20" forecolor="#FFFFFF" uuid="3946daeb-d488-4def-9e36-dd554f3a26aa">
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[BILL TO:]]></text>
+			</staticText>
+			<image>
+				<reportElement x="30" y="20" width="119" height="112" uuid="d66b6e92-1f0b-4868-9457-fa647494c90d"/>
+				<imageExpression><![CDATA["https://www.pngitem.com/pimgs/m/26-264214_transparent-inventory-png-stock-inventory-management-logo-png.png"]]></imageExpression>
+			</image>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="70" splitType="Stretch">
+			<rectangle>
+				<reportElement x="46" y="18" width="560" height="47" uuid="8e3c1105-35b6-4569-8dca-bdb0e89139c8"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="46" y="18" width="110" height="47" uuid="6c6e8e01-7c40-413f-8e94-eb6969e02178"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Order Code]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="156" y="18" width="110" height="47" uuid="15f3df76-b0cf-4b15-83a2-abb258507a80"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[SubTotal]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="266" y="18" width="110" height="47" uuid="ab8450be-1239-4368-b083-c47c97bf4660"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Vat %]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="376" y="18" width="110" height="47" uuid="550b7a46-eb34-4397-b32c-4e0c337d7d41"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total Amount]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="486" y="18" width="120" height="47" uuid="ae8f82e2-0937-4940-ae10-93718ff345e9"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Customer ID]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="59" splitType="Stretch">
+			<textField>
+				<reportElement x="46" y="-2" width="110" height="46" uuid="6c682a5b-dfb0-4dc1-8368-122a11f07b55"/>
+				<textFieldExpression><![CDATA[$F{order_code}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="156" y="-2" width="110" height="46" uuid="d57bce90-859d-433e-b12e-d2002529da85"/>
+				<textFieldExpression><![CDATA[$F{sub_total}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="266" y="-2" width="110" height="46" uuid="ff963340-e062-4778-a2ec-9c1300bcd09e"/>
+				<textFieldExpression><![CDATA[$F{vat}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="376" y="-2" width="110" height="46" uuid="39d53fc1-76ab-4da1-a7ed-7d2a31c42121"/>
+				<textFieldExpression><![CDATA[$F{total_amount}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="486" y="-2" width="120" height="46" uuid="5b290bf5-47b1-4c00-8a83-6bfc336809a4"/>
+				<textFieldExpression><![CDATA[$F{customer_unique}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="63" splitType="Stretch"/>
+	</columnFooter>
+</jasperReport>

@@ -1,0 +1,439 @@
+<!doctype html>
+<html xmlns: th= "http://www.thymeleaf.com">
+
+<head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <title>Order - IMS</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" 
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    
+    <link rel="stylesheet" href="css/stylesheet1.css">
+    
+</head>
+
+    
+<body>
+
+    <div class="container-fluid">
+        <div class="row">
+
+            
+            <div class="col-md-3 menu ps-0">
+                <nav class="navbar navbar-custom align-items-start ps-2"> 
+                    
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link nav_item_text" href="/">Category</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link nav_item_text" href="brandOpen">Brand</a>
+                        </li>
+                         <li class="nav-item">
+                            <a class="nav-link nav_item_text" href="storesOpen">Stores</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link nav_item_text" href="productOpen">Product</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link nav_item_text active" aria-current="page" href="orderOpen">Order Info</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link nav_item_text" href="customerOpen">Customer</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link nav_item_text" href="logout">Logout</a>
+                        </li>
+                    </ul>
+                    
+                </nav>
+            </div>
+            
+
+            <div class="col-md-9">
+                
+                
+                <h3 class="ph_h3 page_header">Order Information</h3>
+                
+ 
+                <div class="row input_section">
+                    
+                               
+     <!-- FORM FOR BARCODE -->   
+            
+               		<form th:action = "@{/addproductcode}" method="POST">
+                		<div class="row">
+                		
+	                		<div class="col-md-2">
+	                              <label>Product Code</label> 
+	                              <input type="number" name="prod_code" class="form-control mt-2" placeholder="Enter Barcode...">
+	                        </div>
+	                        <div class="col-md-2">
+	                             <button type="submit" class="btn btn-success mt-4">Get Info</button>
+	                        </div>
+	                        
+                        </div>
+                    </form>
+                
+                
+     <!-- FORM FOR PRODUCT LIST -->
+                                     
+                   <form th:action = "@{/addlistedprod/{id} ( id = ${prodcodeid} )}" method= "POST" th:if= "${prod != null && prodselected != null && prodcodeid != null}" 
+                                                                                                    th:object= "${prod}">
+                      <div class="row mt-4">
+                      	                        
+   	               		  <input type= "hidden" th:each = "prodselect, iterStat : ${prodselected}"  
+                      	                        th:if= "${prodselected [iterStat.index].prod_code == prod.prod_barcode}" 
+                      	                        th:value= "${prodselected [iterStat.index].prod_code}" name= "prod_code">         			
+                      
+                          <div class="col-md-2">
+                              <label>Product Name</label>
+                              <input type="text" name="prodselected_name" class="form-control mt-2" th:if= "${prod != null && prod.prod_name != null}" 
+                                                                                                    th:value= "${prod.prod_name}">
+                          </div>
+                          <div class="col-md-2">
+                              <label>Price</label>
+                              <input type="number" name="prodselected_price" class="form-control mt-2" th:if= "${prod != null && prod.prod_price != null}" 
+                                                                                                       th:value= "${prod.prod_price}">
+                          </div>
+                          <div class="col-md-2">
+                              <label>Quantity</label>
+                              <input type="number" name="prodselected_quantity" class="form-control mt-2" placeholder="Enter Quantity..." required="true">
+                          </div>
+                          
+                          <div class="col-md-2">
+                              <label>Discount %</label>
+                              <input type="number" name="discount" class="form-control mt-2" placeholder="Enter Discount..." required="true">
+                          </div>                          
+                          <div class="col-md-2">
+                              <button type="submit" class="btn btn-success mt-4">Save Info</button>
+                          </div>
+                          
+                      </div>
+                  </form>
+
+
+		    <!-- Alert Message  -->  
+                   <div th:if= ${session.message}>
+                   	
+                    	<script th:inline="javascript">
+						    var message = [[${session.message}]];
+						    alert (message);
+						</script>
+						
+						<th:block th:text="${#session.removeAttribute('message')}"></th:block>
+					</div>
+
+
+                </div>
+
+                <br>
+                
+                
+    <!-- TABLE FOR TEMPORARY SELECTED LIST -->
+                
+                <div class="row">
+                    
+                    <div class="col-md-11 add_order_tableone">
+                        <table class="table t_t">
+                            
+                            <thead>
+                                <tr>
+                                    <th scope="col">Sl_no</th>
+                                    <th scope="col">Product Code</th>
+                                    <th scope="col">Product Name</th>
+                                    <th scope="col">Price</th>
+                                    <th scope="col">Quantity</th>
+                                    <th scope="col">Discount</th>
+                                    <th scope="col">Action</th>
+                                </tr>
+                            </thead>
+                            
+                            <tbody>
+                                <tr th:if= "${selected != null}" th:each = "select: ${selected}">
+                                
+                                    <th th:text = "${select.prodselected_id}" scope="row"></th>
+                                    <td th:text = "${select.prod_code}"></td>
+                                    <td th:text = "${select.prodselected_name}"></td>
+                                    <td th:text = "${select.prodselected_price}"></td>
+                                    <td th:text = "${select.prodselected_quantity}"></td>
+                                    <td th:text = "${select.discount}"></td>
+                                    
+                                    <td>
+                                     	<a class="btn btn-danger mt-2" th:href= "@{/deleteprodlist/{id} ( id = ${select.prodselected_id} )}">Delete</a>
+                                    </td>
+                                    
+                                </tr>
+                            </tbody>
+                            
+                        </table>
+                    </div>
+
+                </div>
+               
+               <div id="table1"></div>
+               
+                
+                                         
+   			<!-- Buttons for hide and show -->
+
+				<div class= "row">
+					<div class= "col-md-11 mt-2">
+		                <nav class="navbar navbar-expand-lg align-items-middle ps-2 mb-3">  
+	                    	<ul class="nav"> 
+	                    		<li class="nav-item">
+                                    <button class="btn btn-info" onclick="myFunction()">SHOW ProductList</button>
+	                   			</li>
+	                   			<li class="nav-item">
+	                   				<button class="btn btn-info ms-2" onclick="myFunctionX()">SHOW OrderList</button>
+	                   			</li>
+	           				</ul>
+	           			</nav>
+           			</div>	          
+				</div>
+			
+   			<!-- Buttons for hide and show end -->
+                
+                            
+              
+    <!-- TABLE FOR PRODUCT LIST -->
+                
+                <div class="row" id="table2">
+                
+                
+	                <div class="row">
+	                    <div class="col-md-9 page_header mt-4">
+	
+	                        <h3 class="ph_h4">Ordered Product List</h3>
+	
+	                    </div>
+	                </div>
+              
+                                                               
+                    <div class="col-md-11 add_order_tableone">
+                        <table class="table t_t">
+                            
+                            <thead>
+                                <tr>
+                                    <th scope="col">Sl_no</th>
+                                    <th scope="col">Product Code</th>
+                                    <th scope="col">Product Name</th>
+                                    <th scope="col">Price</th>
+                                    <th scope="col">Quantity</th>
+                                    <th scope="col">Discount</th>
+                                    <th scope="col">Order no.</th>
+                                    <th scope="col">Action</th>
+                                </tr>
+                            </thead>
+                            
+                            <tbody>
+                                <tr th:if= "${prodselected != null}" th:each = "prodselect: ${prodselected}">
+                                
+                                    <th th:text = "${prodselect.prodselected_id}" scope="row"></th>
+                                    <td th:text = "${prodselect.prod_code}"></td>
+                                    <td th:text = "${prodselect.prodselected_name}"></td>
+                                    <td th:text = "${prodselect.prodselected_price}"></td>
+                                    <td th:text = "${prodselect.prodselected_quantity}"></td>
+                                    <td th:text = "${prodselect.discount}"></td>
+                                    <td th:if= "${prodselect.order_no != null}" th:text= "${prodselect.order_no}"></td>
+                                    
+                                    <td>
+                                        <a class="btn btn-warning mt-2" th:href= "@{/editproxyprodlist/{id} ( id = ${prodselect.prodselected_id} )}">Edit</a>
+                                     	<a class="btn btn-danger mt-2" th:href= "@{/deleteproxyprodlist/{id} ( id = ${prodselect.prodselected_id} )}">Delete</a>
+                                    </td>
+                                    
+                                </tr>
+                            </tbody>
+                            
+                        </table>
+                    </div>
+                                      
+                </div>
+
+
+     <!-- FORM FOR SELECTING ORDER CODE AND VAT -->
+                
+                <div class= "row order_section">       
+                      
+	                <form th:action= "@{/addordercode}" method= "post">	             
+	                	<div class= "row">
+	                		
+		                	<div class="col-md-2">
+	                        	<label>Order no.</label> 
+	                        	<input type="number" name="order_code" class="form-control mt-2" placeholder="Enter Order code..." required="true">
+	                        	
+	                        	<p th:if= "${ordcode != null && ordcode.order_code != null}" th:text= "${ordcode.order_code}"></p>
+	                        </div>
+	                        
+	                        <div class="col-md-2">
+	                        	<label>Vat %</label> 
+	                        	<input type="number" name= "vat" class="form-control mt-2" placeholder="Enter Vat..." required="true">
+	                        	
+	                        	<p th:if= "${ordcode != null && ordcode.vat != null}" th:text= "${ordcode.vat}"></p>                                                                               
+	                        </div>
+	                        
+				            <div class="col-md-2">                		
+					       		<input type="submit" value="Save Info" class="btn btn-success ms-2 mt-4">
+				       		</div>
+				       		
+				       	</div>				       	
+                    </form> 
+                                                     
+                </div> 
+
+
+	<!-- FORM FOR PAYMENT -->
+	
+                <div class="row pay_section">
+
+                    <form th:action ="@{/addpayandcus}" method="POST" th:if= "${ordcode != null}" th:object= "${ordcode}">                    
+                        <div class="row">
+                        
+                        	<input type= "hidden" th:if= "${ordcode != null && ordcode.order_id != null}" 
+                        	                      th:value= "${ordcode.order_id}" name= "order_id">
+                                         
+                        	<input type="hidden" th:if= "${ordcode != null && ordcode.order_code != null}" 
+                        	                     th:value= "${ordcode.order_code}" name="order_code">
+                        	                     
+                       	 	<input type="hidden" th:if= "${ordcode != null && ordcode.vat != null}" 
+                        	                     th:value= "${ordcode.vat}" name="vat">                    
+                        
+                            <div class="col-md-2">
+                                <label>Sub Total</label>
+                                <input type="number" step="0.01" name= "sub_total" class="form-control mt-2" th:if= "${ordcode != null && ordcode.sub_total != null}" 
+                                                                                                             th:value= "${ordcode.sub_total}">
+                            </div>
+                            <div class="col-md-2">
+                                <label>Total Amount</label>
+                                <input type="number" step= "0.01" name= "total_amount" class="form-control mt-2" th:if= "${ordcode != null && ordcode.total_amount != null}" 
+                                                                                                                 th:value= "${ordcode.total_amount}">
+                            </div>
+                            <div class="col-md-2">
+                                <label>Customer ID</label> <input type="number" name= "customer_unique" class="form-control mt-2" placeholder="Enter Customer ID...">
+                            </div>
+                            <div class="col-md-2">
+                                <label>Paid</label> <input type="number" step= "0.01" name= "pay" class="form-control mt-2" placeholder="Enter Paid Amount...">
+                            </div>
+
+                            <div class="col-md-2">
+                                <button type="submit" class="btn btn-success ms-2 mt-4"> Save info </button>
+                            </div>
+                            
+                        </div>                        
+                    </form>
+
+                </div>
+                  
+                               
+                
+     <!-- TABLE FOR ORDER INFO DISPLAY -->
+     
+			<div class="row" id="table3">
+			
+			
+		        <div class="row">
+                    <div class="col-md-9 page_header mt-4">
+
+                        <h3 class="ph_h4">Display Order</h3>
+
+                    </div>
+                </div>
+ 
+ 
+                <div class="col-md-11 add_order_tabletwo">
+                        <table class="table t_t">
+                            
+                            <thead>
+                                <tr>
+                                    <th scope="col">Sl_no</th>
+                                    <th scope="col">Order no.</th>
+                                    <th scope="col">Sub Total</th>
+                                    <th scope="col">Vat</th>                                    
+                                    <th scope="col">Total Amount</th>
+                                    <th scope="col">Customer ID</th>
+                                    <th scope="col">Paid</th>
+                                    <th scope="col">Action</th>
+                                </tr>
+                            </thead>
+                            
+                            <tbody>
+                                <tr th:each = "order: ${ord}">
+                                    <th th:text = "${order.order_id}" scope="row"></th>
+                                    <th th:text = "${order.order_code}"></th>
+                                    <td th:text = "${order.sub_total}"></td>
+                                    <td th:text = "${order.vat}"></td>                                    
+                                    <td th:text = "${order.total_amount}"></td>
+                                    <td th:text = "${order.customer_unique}"></td>
+                                    <td th:text = "${order.pay}"></td>
+                                    
+                                    <td>
+                                        <a class="btn btn-warning mt-2" th:href= "@{/editproxyprodlist/{id} ( id = ${order.order_id} )}">Edit</a>
+                                     	<a class="btn btn-danger mt-2" th:href= "@{/deleteorder/{id} ( id = ${order.order_id} )}">Delete</a>                               
+                                    </td>
+                                    
+                                </tr>
+                            </tbody>
+                            
+                        </table>
+                    </div>
+                
+                
+               		 	 <div class= "row">
+               				<div class= "col-md-11 d-flex justify-content-end">
+               					<a class="btn btn-secondary mt-2" th:href= "@{/pdf}" id="print">  Print PDF  </a> 
+           					</div>
+      					</div> 
+
+                
+             	</div>
+
+
+            </div>
+
+            
+        </div>
+    </div>
+
+
+
+	<script src="js/jquery-3.2.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" 
+            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+   
+    
+   <!-- Table Hide and Show -->
+    
+    <script th:inline="javascript">
+    
+        function myFunction() {
+            var x = document.getElementById("table2");
+            if (x.style.display === "none") {
+                x.style.display = "block";
+            } else {
+                x.style.display = "none";
+            }
+        }
+        
+    </script>
+
+
+    <script th:inline="javascript">
+    
+        function myFunctionX() {
+            var x = document.getElementById("table3");
+            if (x.style.display === "none") {
+                x.style.display = "block";
+            } else {
+                x.style.display = "none";
+            }
+        }
+        
+    </script>
+ 
+   
+</body>
+
+</html>

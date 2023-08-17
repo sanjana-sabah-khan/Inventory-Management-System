@@ -1,0 +1,262 @@
+<!doctype html>
+<html xmlns: th= "http://www.thymeleaf.com">
+
+<head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <title>Product - IMS</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" 
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+          
+    <link rel="stylesheet" href="/css/stylesheet1.css">
+    
+</head>
+
+    
+<body>
+
+    <div class="container-fluid">
+        <div class="row">
+
+
+            <div class="row">
+               	<div class="col-md-12">
+               	 
+               		<h3 class="ph_h5 page_header">Order List Edit</h3>
+               		
+               	</div>
+        	</div>
+            
+
+            <div class="col-md-12 input_edit">
+
+
+             	<div class="row input_section">
+                                                 
+                
+     <!-- FORM FOR BARCODE AND PRODUCT LIST -->
+                                     
+                   <form th:action= "@{/updateprodlist}" method= "POST" th:if= "${edit != null}" 
+                                                                        th:object= "${edit}">
+                   
+                   
+                      <div class="row mt-4">           
+                      	                        
+   	               		  <input type= "hidden" name= "prodselected_id" th:if= "${edit.prodselected_id != null}"
+   	               		                                                th:value= "${edit.prodselected_id}">
+   	               		  
+   	               		  	<div class="row">
+		                		<div class="col-md-2">
+		                              <label>Product Code</label> 
+		                              <input type="number" name="prod_code" class="form-control mt-2" th:if= "${edit.prod_code != null}"
+		                                                                                              th:value= "${edit.prod_code}">
+		                        </div>
+                        	</div>         			
+                      
+                          <div class="col-md-2">
+                              <label>Product Name</label>
+                              <input type="text" name="prodselected_name" class="form-control mt-2" th:if= "${edit.prodselected_name != null}"
+                                                                                                    th:value= "${edit.prodselected_name}">
+                          </div>
+                          
+                          <div class="col-md-2">
+                              <label>Price</label>
+                              <input type="number" name="prodselected_price" class="form-control mt-2" th:if= "${edit.prodselected_price != null}"
+                                                                                                       th:value= "${edit.prodselected_price}">
+                          </div>
+                          
+                          <div class="col-md-2">
+                              <label>Quantity</label>
+                              <input type="number" name="prodselected_quantity" class="form-control mt-2" th:if= "${edit.prodselected_quantity != null}"
+                                                                                                          th:value= "${edit.prodselected_quantity}">
+                          </div>
+                          
+                          <div class="col-md-2">
+                              <label>Discount %</label>
+                              <input type="number" name="discount" class="form-control mt-2" th:if= "${edit.discount != null}"
+                                                                                             th:value= "${edit.discount}">
+                          </div>
+                          
+                          <div class="col-md-2">
+                              <label>Order no.</label>
+                              <input type="number" name="order_no" class="form-control mt-2" th:if= "${edit.order_no != null}" 
+                                                                                             th:value= "${edit.order_no}">
+                          </div>     
+                                               
+                          <div class="col-md-2">
+                              <button type="submit" class="btn btn-success mt-4">Save Info</button>
+                          </div>
+                          
+                      </div>
+                      
+                      
+                  </form>
+
+
+					<!-- Alert Message  -->  
+                   <div th:if= ${session.message}>
+                   	
+                    	<script th:inline="javascript">
+						    var message = [[${session.message}]];
+						    alert (message);
+						</script>
+						
+						<th:block th:text="${#session.removeAttribute('message')}"></th:block>
+					</div>
+
+
+                </div>
+
+                <br>
+
+
+    <!-- TABLE FOR PRODUCT LIST -->
+                
+                <div class="row">
+                    
+                    <div class="col-md-11 add_order_tableone">
+                        <table class="table t_t" th:if= "${edit != null}">
+                            
+                            <thead>
+                                <tr>
+                                
+                                    <th scope="col">Sl_no</th>
+                                    <th scope="col">Product Code</th>
+                                    <th scope="col">Product Name</th>
+                                    <th scope="col">Price</th>
+                                    <th scope="col">Quantity</th>
+                                    <th scope="col">Discount</th>
+                                    <th scope="col">Order no.</th>
+                            
+                                </tr>
+                            </thead>
+                            
+                            <tbody>
+                                <tr th:if= "${prodselected != null}" th:each = "prodselect: ${prodselected}">
+                                
+                                    <th th:text = "${prodselect.prodselected_id}" scope="row"></th>
+                                    <td th:text = "${prodselect.prod_code}"></td>
+                                    <td th:text = "${prodselect.prodselected_name}"></td>
+                                    <td th:text = "${prodselect.prodselected_price}"></td>
+                                    <td th:text = "${prodselect.prodselected_quantity}"></td>
+                                    <td th:text = "${prodselect.discount}"></td>
+                                    <td th:if= "${prodselect.order_no != null}" th:text= "${prodselect.order_no}"></td>
+                                                     
+                                </tr>
+                            </tbody>
+                            
+                        </table>
+                    </div>
+
+                </div>
+                
+                
+                
+                <!-- FORM FOR PAYMENT -->
+	
+                <div class="row pay_section">
+
+                    <form th:action ="@{/updateorder}" method="POST" th:if= "${editord != null}" th:object= "${editord}">                    
+                        <div class="row">
+                        	
+                       		<input type= "hidden" name= "order_id" class="form-control mt-2" th:if= "${editord.order_id != null}" 
+                        	                                                                     th:value= "${editord.order_id}">
+                        	                                                                     
+                            <div class="col-md-2">
+                                <label>Order code</label>       
+                        		<input type= "number" name= "order_code" class="form-control mt-2" th:if= "${editord.order_code != null}" 
+                        	                                                                       th:value= "${editord.order_code}">
+                        	</div> 
+                        	  
+                       	  	<div class="col-md-2">
+                                <label>Vat</label>                   
+                       	 		<input type= "number" name= "vat" class="form-control mt-2" th:if= "${editord.vat != null}" 
+                        	                                                                th:value= "${editord.vat}">                    
+                        	</div>
+                        	
+                            <div class="col-md-2">
+                                <label>Sub Total</label>
+                                <input type="number" step="0.01" name= "sub_total" class="form-control mt-2" th:if= "${editord.sub_total != null}" 
+                                                                                                             th:value= "${editord.sub_total}">
+                            </div>
+                            
+                            <div class="col-md-2">
+                                <label>Total Amount</label>
+                                <input type="number" step= "0.01" name= "total_amount" class="form-control mt-2" th:if= "${editord.total_amount != null}" 
+                                                                                                                 th:value= "${editord.total_amount}">
+                            </div>
+                            
+                            <div class="col-md-2">
+                                <label>Customer ID</label> <input type="number" name= "customer_unique" class="form-control mt-2" th:if= "${editord.customer_unique != null}" 
+                                                                                                                                  th:value= "${editord.customer_unique}">
+                            </div>
+                            
+                            <div class="col-md-2">
+                                <label>Paid</label> <input type="number" step= "0.01" name= "pay" class="form-control mt-2" th:if= "${editord.pay != null}" 
+                                                                                                                            th:value= "${editord.pay}">
+                            </div>
+
+                            <div class="col-md-2">
+                                <button type="submit" class="btn btn-success ms-2 mt-4"> Save info </button>
+                            </div>
+                            
+                        </div>                        
+                    </form>
+
+                </div>
+                
+
+		<!-- TABLE FOR ORDER INFO DISPLAY -->
+
+				<div class="col-md-11 add_order_tabletwo">
+				
+                        <table class="table t_t" th:if= "${editord != null}">
+                            
+                            <thead>
+                                <tr>
+                                    <th scope="col">Sl_no</th>
+                                    <th scope="col">Order no.</th>
+                                    <th scope="col">Sub Total</th>
+                                    <th scope="col">Vat</th>                                    
+                                    <th scope="col">Total Amount</th>
+                                    <th scope="col">Customer ID</th>
+                                    <th scope="col">Paid</th>                                  
+                                </tr>
+                            </thead>
+                            
+                            <tbody>
+                                <tr th:each = "order: ${ord}">
+                                    <th th:text = "${order.order_id}" scope="row"></th>
+                                    <th th:text = "${order.order_code}"></th>
+                                    <td th:text = "${order.sub_total}"></td>
+                                    <td th:text = "${order.vat}"></td>                                    
+                                    <td th:text = "${order.total_amount}"></td>
+                                    <td th:text = "${order.customer_unique}"></td>
+                                    <td th:text = "${order.pay}"></td>                                    
+                                </tr>
+                            </tbody>
+                            
+                        </table>
+                        
+                    </div>
+
+
+
+            </div>
+
+            
+        </div>
+    </div>
+
+
+
+    <script src="js/jquery-3.2.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" 
+            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+   
+</body>
+
+</html>

@@ -1,0 +1,246 @@
+<!doctype html>
+<html xmlns: th= "http://www.thymeleaf.com">
+    
+<head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <title>Stores - IMS</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/stylesheet1.css">
+    
+</head>
+    
+
+<body>
+
+
+    <div class="container-fluid">
+        <div class="row">
+
+            
+            <div class="col-md-3 menu ps-0">
+                <nav class="navbar navbar-custom align-items-start ps-2"> 
+                    
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link nav_item_text" href="/">Category</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link nav_item_text" href="brandOpen">Brand</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link nav_item_text active" aria-current="page" href="storesOpen">Stores</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link nav_item_text" href="productOpen">Product</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link nav_item_text" href="orderOpen">Order Info</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link nav_item_text" href="customerOpen">Customer</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link nav_item_text" href="logout">Logout</a>
+                        </li>
+                    </ul>
+                    
+                </nav>
+            </div>
+            
+
+            <div class="col-md-9">
+                
+                
+                <h3 class="ph_h3 page_header">Stores</h3>
+            
+            
+                <div class="row align-items-start">
+                    
+                    <div class="col-md-4 input_section">
+                    
+                    	<form th:action = "@{/addstore}" method="POST">
+
+	                        <div class="row">
+	                            <div class="form-group col-md-12">
+	                                <label for="store_name">Store</label>
+	                                <input type="text" class="form-control mt-2" id="stname" name="store_name" required="true" placeholder="Enter Store Name...">
+	                            </div>
+	                        </div>
+	                        
+	                        
+	                        <div class="row pt-3">
+	                            <div class="form-group col-md-12">
+	                                <label for="stcontact">Contact no.</label>
+	                                <input type="text" class="form-control mt-2" id="contact_num" name= "store_contactNum" required="true" placeholder="Enter Contact number...">
+	                            </div>
+	                        </div>
+	                        
+	                        
+	                        <div class="row pt-3">
+	                            <div class="form-group col-md-12">
+	                                <label for="stemail">Email</label>
+	                                <input type="email" class="form-control mt-2" id="email" name= "store_email" required="true" placeholder="Enter Email address...">
+	                            </div>
+	                        </div>
+	                        
+	                        
+	                        <div class="row pt-3">
+	                            <div class="form-group col-md-12">
+	                                <label for="stlocation">Retail Location</label>
+	                                <input type="text" class="form-control mt-2" id="location" name= "store_location" required="true" placeholder="Enter Store Location...">
+	                            </div>
+	                        </div>
+	                        
+	                        
+	                        <div class="row pt-3">
+	                            <div class="form-group col-md-12">
+	                                <label for="store_stock">Supplied Item in Stock</label>
+	                                <input type="number" class="form-control mt-2" id="item_stock" name="store_stock" required="true" placeholder= "Enter total number of supplied items...">
+	                            </div>
+	                        </div>
+	
+	                        
+	                        <div class="row pt-3">
+	                            <div class="form-group col-md-12">
+	                                <label for="store_status">State</label>
+	                                <select id="ststatus" name="store_status" class="form-select mt-2">
+	                                    <option selected>Active</option>
+	                                    <option>Inactive</option>
+	                                </select>
+	                            </div>
+	                        </div>
+	
+	
+	                        <div class="row pt-4">
+	                            <div class="d-grid gap-2 col-md-6 mx-auto">
+	                                <button type="submit" name="add" class="btn btn-success">Add</button>
+	                            </div>
+	                        </div>
+	                        
+                        </form>
+                    
+
+				<!--  Alert Message  -->  
+		                   <div th:if= ${session.message}>
+		                   	
+		                    	<script th:inline="javascript">
+								    var message = [[${session.message}]];
+								    alert (message);
+								</script>
+								
+								<th:block th:text="${#session.removeAttribute('message')}"></th:block>
+							</div>
+							
+
+					</div>
+
+                
+
+					<div class="col-md-8 t_t2">
+					
+						<div class="row">
+		                    <div class="col-md-6 page_header">	
+		                        <h3 class="ph_h4">Display Store Stock Details</h3>	
+		                    </div>
+	                	</div>
+	                
+
+                   		<table class="table table-striped t_t">
+	                         <thead>
+	                             <tr>
+	                                 <th scope="col">ID</th>
+	                                 <th scope="col">Store</th>
+	                                 <th scope="col">Status</th>
+	                                 <th scope="col">Amount of items in Stock</th>
+	                                 <th scope="col">Sold</th>
+	                                 <th scope="col">Remaining</th>
+	                             </tr>
+	                         </thead>
+	
+	                         <tbody>
+	                             <tr th:each = "store : ${st}">
+	                                 <th th:text = "${store.store_id}" scope="row">1</th>
+	                                 <td th:text = "${store.store_name}"></td>
+	                                 <td th:text = "${store.store_status}"></td>
+	                                 <td th:text = "${store.store_stock}"></td>
+	                                 <td th:text = "${store.store_sold}"></td>
+	                                 <td th:text = "${store.store_remaining}"></td>	                    
+	                             </tr>
+	                         </tbody>
+	                     </table>
+	                        
+                        
+                        <div class="d-grid gap-2 col-md-4 mx-auto mt-5">
+                        
+	                        <form th:action = "@{/emailstore}" method= "post">                       		                               		
+								<input type="submit" value="Send Email for Store Restock" class="btn btn-dark mt-3">										       	
+		                 	</form>
+		                 	
+	                 	</div>
+
+                    </div>
+
+
+					<div class= "row">
+		
+						<div class="row">
+		                    <div class="col-md-6 page_header mt-5">	
+		                        <h3 class="ph_h4">Display Store Info</h3>	
+		                    </div>
+		                </div>
+	
+	                    
+	                    <div class="col-md-11 t_t2">	
+							<table class="table table-striped t_t">
+	                            <thead>
+	                                <tr>
+	                                    <th scope="col">ID</th>
+	                                    <th scope="col">Store</th>
+	                                    <th scope="col">Contact No.</th>
+	                                    <th scope="col">Email</th>
+	                                    <th scope="col">Retail Location</th>                
+	                                    <th scope="col">Actions</th>
+	                                </tr>
+	                            </thead>
+	
+	                            <tbody>
+	                                <tr th:each = "store : ${st}">
+	                                    <th th:text = "${store.store_id}" scope="row">1</th>
+	                                    <td th:text = "${store.store_name}"></td>
+	                                    <td th:text = "${store.store_contactNum}"></td>
+	                                    <td th:text = "${store.store_email}"></td>
+	                                    <td th:text = "${store.store_location}"></td>
+	                                    
+	                                    <td>
+	                                    	<a class="btn btn-sm btn-warning" th:href= "@{/editstore/{id} ( id = ${store.store_id} )}">Edit</a>
+	                                        <a class="btn btn-sm btn-danger" th:href= "@{/deletestore/{id} ( id = ${store.store_id} )}">Delete</a>
+	                                    </td>
+	                                </tr>
+	                            </tbody>
+	                        </table>
+	                    </div>
+	                    	                    
+	                </div>
+
+                
+                </div>
+                
+
+            </div>
+
+
+        </div>
+    </div>
+    
+    
+    
+    <script src="js/jquery-3.2.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+      
+</body>
+
+</html>
